@@ -21,12 +21,12 @@ public class AuthorController {
 	private AuthorService service;
 
 	@PostMapping("/author")
-	public Author saveAuthor(@RequestBody Author author) {
-		Author author2 = service.saveAuthor(author);
+	public String saveAuthor(@RequestBody Author author) {
+		String author2 = service.saveAuthor(author);
 		if (author2 != null) {
 			return author2;
 		}
-		return null;
+		return "not saved";
 	}
 
 	@GetMapping("/get")
@@ -34,7 +34,7 @@ public class AuthorController {
 		return "Welcome";
 	}
 
-	@DeleteMapping("/author")
+	@DeleteMapping("/author/{id}")
 	public String delete(int id) {
 		return service.deleteAuthor(id);
 	}

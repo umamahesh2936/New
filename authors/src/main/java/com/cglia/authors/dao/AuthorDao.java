@@ -1,12 +1,13 @@
 package com.cglia.authors.dao;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cglia.authors.dto.Author;
+import com.cglia.authors.dto.AuthorBio;
+import com.cglia.authors.repositoryconfiguration.AuthorBioRepository;
 import com.cglia.authors.repositoryconfiguration.AuthorRepository;
 import com.cglia.authors.repositoryconfiguration.BookRepository;
 
@@ -16,29 +17,34 @@ public class AuthorDao {
 	AuthorRepository repository;
 	@Autowired
 	BookRepository repository2;
+	@Autowired
+	AuthorBioRepository bioRepository;
 
-	public Author saveAuthor(Author author) {
+	public String saveAuthor(Author author) {
+		AuthorBio authorBio = author.getAuthorBios();
+
 		if (author != null) {
-			repository.save(author);
-			if (!author.getBooks().isEmpty()) {
-				repository2.saveAll(author.getBooks());
+			if (authorBio != null) {
+				authorBio.setAuthor(author);
+				bioRepository.save(authorBio);
 			}
-			return author;
+			repository.save(author);
+			return "Data saved Successfully";
 		}
 		return null;
 	}
 
 	public String deleteAuthor(int id) {
-		Optional<Author> author = repository.findById(id);
-		if (author.get() != null) {
-			repository.delete(author.get());
+		Author author = repository.findById(id);
+		if (author != null) {
+			repository.delete(author);
 			return "Deleted Successfully";
 		}
 		return null;
 	}
 
 	public Author getById(int id) {
-		Author author = repository.getById(id);
+		Author author = repository.findById(id);
 		if (author != null) {
 			return author;
 		}

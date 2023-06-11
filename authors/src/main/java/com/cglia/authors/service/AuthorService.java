@@ -13,7 +13,7 @@ public class AuthorService {
 	@Autowired
 	AuthorDao dao;
 
-	public Author saveAuthor(Author author) {
+	public String saveAuthor(Author author) {
 		return dao.saveAuthor(author);
 	}
 

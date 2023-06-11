@@ -7,5 +7,4 @@ import com.cglia.authors.dto.AuthorBio;
 
 @EnableJpaRepositories
 public interface AuthorBioRepository extends JpaRepository<AuthorBio, Integer> {
-	
 }
